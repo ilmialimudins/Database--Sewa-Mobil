@@ -1,0 +1,81 @@
+ DATABASE (("SEWA MOBIL")) -
+
+mysql> create database sewamobil;
+
+mysql> use sewamobil;
+
+mysql> show databases;
+
+mysql> create table mobil
+    -> (kode char (15) primary key,
+    -> jenis varchar (20) not null,
+    -> merk varchar (20) not null,
+    -> tarif varchar (20) not null,
+    -> nopol varchar (20) not null);
+
+mysql> desc mobil;
+
+mysql>  insert into mobil values
+    -> ('M001','SEDAN','BMW ES','500000','BG1234AA'),
+    -> ('M002','SEDAN','HONDA CRV','350000','BG2345BB'),
+    -> ('M003','BUS','MERCEDEZ','1000000','BG3456CC'),
+    -> ('M004','BUS','DYNA','800000','BG8443DD'),
+    -> ('M005','TRUCK','HYNO ZX','1500000','BG4638EE'),
+    -> ('M006','TRUCK','DYNA X1','1500000','BG8473FF');
+
+mysql> select * from mobil;
+
+mysql> create table pelanggan
+    -> (kode char (15) primary key,
+    -> nama varchar (20) not null,
+    -> kontak varchar (20) not null,
+    -> alamat varchar (30) not null,
+    -> kota varchar (20) not null,
+    -> kodepos varchar (20) not null,
+    -> telepon varchar (20) not null);
+
+mysql> desc pelanggan;
+
+mysql> insert into pelanggan values
+    -> ('P001','PT FOX RIVER','HENDRA','JL. JEND. SUDIRMAN 657','BENGKULU','30245','1234567'),
+    -> ('P002','PT FOXCON','IWAN','JL. WAHID HASYIM 743','JAKARTA','73429','234567'),
+    -> ('P003','PT FARMACON','YANI','JL. AHMAD DAHLAN 45','LAMPUNG','28349','3334445');
+
+mysql> select * from pelanggan;
+
+mysql> create table sewa
+    -> (nofaktursewa varchar (20) not null,
+    -> kodepelanggan varchar (20) not null);
+
+
+mysql> alter table sewa
+    -> add tglsewa varchar (20) not null,
+    -> add kodemobil varchar (20) not null,
+    -> add lamasewa varchar (20) not null,
+    -> add uangmuka varchar (20) not null;
+
+mysql> desc sewa;
+
+mysql> insert into sewa values
+    -> ('F001','P001','2008-12-01','M001','2','200000'),
+    -> ('F001','P001','2008-12-01','M003','2','200000'),
+    -> ('F002','P002','2008-12-02','M002','1','100000');
+
+mysql> select * from sewa;
+
+mysql> select mobil.kode, mobil.jenis, mobil.merk, sewa.nofaktursewa, sewa.tglsewa, sewa.lamasewa
+    -> from mobil
+    -> left join sewa
+    -> on mobil.kode=sewa.kodemobil;
+
+mysql> select sewa.nofaktursewa, pelanggan.nama, sewa.tglsewa, mobil.jenis, mobil.merk, sewa.lamasewa, sewa.uangmuka
+    -> from mobil
+    -> inner join sewa on mobil.kode=sewa.kodemobil
+    -> inner join pelanggan on sewa.kodepelanggan=pelanggan.kode;
+
+mysql> select pelanggan.nama, pelanggan.kota, sewa.nofaktursewa, sewa.tglsewa, sewa.kodemobil, sewa.lamasewa, sewa.uangmuka
+    -> from pelanggan
+    -> left join sewa
+    -> on pelanggan.kode=sewa.kodepelanggan;
+
+SELESAI...
